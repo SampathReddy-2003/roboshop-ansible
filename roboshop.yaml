@@ -9,7 +9,7 @@
     ami_id: ami-0220d79f3f480ecf5
     domain_name: srrdaws.online
     env: dev
-    action: create
+    action: destroy
     instances:
     - mongodb
     - catalogue
@@ -45,6 +45,7 @@
       ttl: 1
       value: "{{ item.instances[0].private_ip_address }}"
       wait: true
+      
     loop: "{{ ec2_output.results }}"
     when: action == "create"
 
@@ -57,6 +58,7 @@
       ttl: 1
       value: "{{ item.instances[0].public_ip_address }}"
       wait: true
+      overwrite: true
     loop: "{{ ec2_output.results }}"
     when: 
     - item.item == "frontend"
